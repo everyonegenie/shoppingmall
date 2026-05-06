@@ -75,7 +75,7 @@
     btn.textContent = '로그인 중...';
     errEl.textContent = '';
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await sb.auth.signInWithPassword({
       email: document.getElementById('login-email').value.trim(),
       password: document.getElementById('login-pw').value,
     });
@@ -104,7 +104,7 @@
     btn.textContent = '가입 중...';
     errEl.textContent = '';
 
-    const { error } = await supabase.auth.signUp({
+    const { error } = await sb.auth.signUp({
       email: document.getElementById('signup-email').value.trim(),
       password: pw,
     });

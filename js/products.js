@@ -50,7 +50,7 @@ async function loadProducts() {
   const grid = document.getElementById('products-grid');
   grid.innerHTML = '<div class="spinner"></div>';
 
-  const { data: products, error } = await supabase
+  const { data: products, error } = await sb
     .from('products')
     .select('*')
     .eq('is_active', true)

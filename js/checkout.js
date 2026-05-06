@@ -66,7 +66,7 @@ async function requestPayment() {
     : `${items[0].product.name} 외 ${items.length - 1}건`;
 
   // Supabase 에 pending 주문 먼저 저장
-  const { error: orderErr } = await supabase.from('orders').insert({
+  const { error: orderErr } = await sb.from('orders').insert({
     user_id: user.id,
     user_email: user.email,
     status: 'pending',
@@ -82,9 +82,9 @@ async function requestPayment() {
   }
 
   // order_items 저장
-  const { data: order } = await supabase.from('orders').select('id').eq('toss_order_id', orderId).single();
+  const { data: order } = await sb.from('orders').select('id').eq('toss_order_id', orderId).single();
   if (order) {
-    await supabase.from('order_items').insert(
+    await sb.from('order_items').insert(
       items.map(({ product, qty }) => ({
         order_id: order.id,
         product_id: product.id,

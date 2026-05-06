@@ -11,7 +11,7 @@ async function loadAllOrders() {
   const tbody = document.getElementById('admin-orders-body');
   tbody.innerHTML = '<tr><td colspan="6"><div class="spinner"></div></td></tr>';
 
-  const { data: orders, error } = await supabase
+  const { data: orders, error } = await sb
     .from('orders')
     .select('*, order_items(*)')
     .order('created_at', { ascending: false });
@@ -41,7 +41,7 @@ async function loadAdminProducts() {
   const tbody = document.getElementById('admin-products-body');
   tbody.innerHTML = '<tr><td colspan="5"><div class="spinner"></div></td></tr>';
 
-  const { data: products } = await supabase.from('products').select('*').order('created_at', { ascending: true });
+  const { data: products } = await sb.from('products').select('*').order('created_at', { ascending: true });
 
   if (!products?.length) {
     tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><p>상품이 없습니다.</p></div></td></tr>';
@@ -77,9 +77,9 @@ async function saveProduct(e) {
 
   let error;
   if (id) {
-    ({ error } = await supabase.from('products').update(data).eq('id', id));
+    ({ error } = await sb.from('products').update(data).eq('id', id));
   } else {
-    ({ error } = await supabase.from('products').insert(data));
+    ({ error } = await sb.from('products').insert(data));
   }
 
   if (error) { alert('저장 실패: ' + error.message); return; }
@@ -105,7 +105,7 @@ function editProduct(id) {
 
 async function deleteProduct(id) {
   if (!confirm('정말 삭제하시겠습니까?')) return;
-  const { error } = await supabase.from('products').delete().eq('id', id);
+  const { error } = await sb.from('products').delete().eq('id', id);
   if (error) { alert('삭제 실패: ' + error.message); return; }
   await loadAdminProducts();
 }

@@ -18,4 +18,5 @@ const TOSS_CLIENT_KEY = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eo0';
 // GitHub Pages URL (success/fail 리다이렉트용)
 const SITE_URL = 'https://everyonegenie.github.io/shoppingmall';
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// UMD 번들이 전역 'supabase' 를 이미 선언하므로 클라이언트는 'sb' 로 명명
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

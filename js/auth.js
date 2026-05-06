@@ -1,14 +1,14 @@
 // 공통 인증 유틸 — 모든 페이지에서 로드
 
 async function getCurrentUser() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await sb.auth.getUser();
   return user;
 }
 
 async function getCurrentProfile() {
   const user = await getCurrentUser();
   if (!user) return null;
-  const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+  const { data } = await sb.from('profiles').select('*').eq('id', user.id).single();
   return data;
 }
 
@@ -25,7 +25,7 @@ async function requireAdmin() {
 }
 
 async function logout() {
-  await supabase.auth.signOut();
+  await sb.auth.signOut();
   location.href = 'auth.html';
 }
 

@@ -15,7 +15,7 @@ async function handleSuccess() {
 
   try {
     // Edge Function 호출 (Authorization 헤더 포함)
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await sb.auth.getSession();
     const res = await fetch(EDGE_FUNCTION_URL, {
       method: 'POST',
       headers: {

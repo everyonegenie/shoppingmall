@@ -5,7 +5,7 @@ async function loadOrders() {
   const tbody = document.getElementById('orders-body');
   tbody.innerHTML = '<tr><td colspan="5"><div class="spinner"></div></td></tr>';
 
-  const { data: orders, error } = await supabase
+  const { data: orders, error } = await sb
     .from('orders')
     .select('*, order_items(*)')
     .eq('user_id', user.id)
