@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 — GOODS SHOP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="nav__logo">🛍️ GOODS SHOP</a>
+      <div class="nav__links" id="nav-auth"></div>
+    </nav>
+  </div>
+</header>
+
+<main class="checkout-page">
+  <h2>결제하기</h2>
+
+  <!-- 주문 요약 -->
+  <div class="order-summary">
+    <h3>주문 상품</h3>
+    <div id="order-items"></div>
+    <div class="order-total">
+      <span>합계</span>
+      <span id="order-total-amount">-</span>
+    </div>
+  </div>
+
+  <!-- 토스 결제 위젯 영역 -->
+  <div id="payment-method" style="margin-bottom:16px"></div>
+  <div id="agreement" style="margin-bottom:24px"></div>
+
+  <button id="pay-btn" class="btn btn--primary btn--full" onclick="requestPayment()" disabled>
+    결제하기
+  </button>
+  <a href="index.html" class="btn btn--secondary btn--full" style="margin-top:10px;text-align:center">취소</a>
+</main>
+
+<!-- Toss Payments SDK -->
+<script src="https://js.tosspayments.com/v2/standard"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/checkout.js"></script>
+<script>
+  (async () => {
+    await renderNav();
+    await initCheckout();
+  })();
+</script>
+</body>
+</html>

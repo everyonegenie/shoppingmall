@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 — GOODS SHOP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="nav__logo">🛍️ GOODS SHOP</a>
+      <div class="nav__links" id="nav-auth"></div>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="padding-bottom:60px">
+  <div class="page-header">
+    <h1>관리자 대시보드</h1>
+  </div>
+
+  <!-- 탭 -->
+  <div class="admin-tabs">
+    <button id="tab-orders" class="btn btn--primary" onclick="switchAdminTab('orders')">전체 주문</button>
+    <button id="tab-products" class="btn btn--secondary" onclick="switchAdminTab('products')">상품 관리</button>
+  </div>
+
+  <!-- 전체 주문 섹션 -->
+  <div id="section-orders">
+    <div style="overflow-x:auto">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>구매자</th>
+            <th>상품</th>
+            <th>상태</th>
+            <th>금액</th>
+            <th>주문번호</th>
+          </tr>
+        </thead>
+        <tbody id="admin-orders-body">
+          <tr><td colspan="6"><div class="spinner"></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 상품 관리 섹션 -->
+  <div id="section-products" style="display:none" data-section="products">
+
+    <!-- 상품 추가/수정 폼 -->
+    <div class="product-form">
+      <h3 id="prod-form-title">상품 추가</h3>
+      <form id="product-form" onsubmit="saveProduct(event)">
+        <input type="hidden" id="prod-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label>상품명</label>
+            <input type="text" id="prod-name" required placeholder="상품명 입력">
+          </div>
+          <div class="form-group">
+            <label>가격 (원)</label>
+            <input type="number" id="prod-price" required min="0" placeholder="15000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>설명</label>
+          <input type="text" id="prod-desc" placeholder="상품 설명">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>이미지 URL</label>
+            <input type="url" id="prod-img" placeholder="https://...">
+          </div>
+          <div class="form-group">
+            <label>재고</label>
+            <input type="number" id="prod-stock" value="0" min="0">
+          </div>
+        </div>
+        <div class="form-group" style="display:flex;align-items:center;gap:8px">
+          <input type="checkbox" id="prod-active" checked>
+          <label for="prod-active" style="margin:0">판매 활성화</label>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button type="submit" class="btn btn--primary">저장</button>
+          <button type="button" id="prod-cancel" class="btn btn--secondary" onclick="resetProductForm()" style="display:none">취소</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 상품 목록 -->
+    <div style="overflow-x:auto">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>재고</th>
+            <th>상태</th>
+            <th>관리</th>
+          </tr>
+        </thead>
+        <tbody id="admin-products-body">
+          <tr><td colspan="5"><div class="spinner"></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  (async () => {
+    await renderNav();
+    await initAdmin();
+  })();
+</script>
+</body>
+</html>

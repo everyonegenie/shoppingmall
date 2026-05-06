@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인 / 회원가입 — GOODS SHOP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-box">
+    <div class="auth-box__logo">🛍️ GOODS SHOP</div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">로그인</button>
+      <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">회원가입</button>
+    </div>
+
+    <!-- 로그인 폼 -->
+    <form id="form-login" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>이메일</label>
+        <input type="email" id="login-email" placeholder="example@email.com" required>
+      </div>
+      <div class="form-group">
+        <label>비밀번호</label>
+        <input type="password" id="login-pw" placeholder="비밀번호 입력" required>
+      </div>
+      <p class="form-error" id="login-error"></p>
+      <button type="submit" class="btn btn--primary btn--full" id="login-btn">로그인</button>
+    </form>
+
+    <!-- 회원가입 폼 -->
+    <form id="form-signup" onsubmit="handleSignup(event)" style="display:none">
+      <div class="form-group">
+        <label>이메일</label>
+        <input type="email" id="signup-email" placeholder="example@email.com" required>
+      </div>
+      <div class="form-group">
+        <label>비밀번호 (6자 이상)</label>
+        <input type="password" id="signup-pw" placeholder="비밀번호 입력" minlength="6" required>
+      </div>
+      <div class="form-group">
+        <label>비밀번호 확인</label>
+        <input type="password" id="signup-pw2" placeholder="비밀번호 재입력" required>
+      </div>
+      <p class="form-error" id="signup-error"></p>
+      <button type="submit" class="btn btn--primary btn--full" id="signup-btn">회원가입</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  // 이미 로그인돼 있으면 메인으로
+  (async () => {
+    const user = await getCurrentUser();
+    if (user) location.href = 'index.html';
+  })();
+
+  function switchTab(tab) {
+    document.getElementById('form-login').style.display  = tab === 'login'  ? '' : 'none';
+    document.getElementById('form-signup').style.display = tab === 'signup' ? '' : 'none';
+    document.getElementById('tab-login').classList.toggle('active',  tab === 'login');
+    document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    const btn = document.getElementById('login-btn');
+    const errEl = document.getElementById('login-error');
+    btn.disabled = true;
+    btn.textContent = '로그인 중...';
+    errEl.textContent = '';
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: document.getElementById('login-email').value.trim(),
+      password: document.getElementById('login-pw').value,
+    });
+
+    if (error) {
+      errEl.textContent = error.message === 'Invalid login credentials'
+        ? '이메일 또는 비밀번호가 올바르지 않습니다.'
+        : error.message;
+      btn.disabled = false;
+      btn.textContent = '로그인';
+    } else {
+      location.href = 'index.html';
+    }
+  }
+
+  async function handleSignup(e) {
+    e.preventDefault();
+    const btn = document.getElementById('signup-btn');
+    const errEl = document.getElementById('signup-error');
+    const pw  = document.getElementById('signup-pw').value;
+    const pw2 = document.getElementById('signup-pw2').value;
+
+    if (pw !== pw2) { errEl.textContent = '비밀번호가 일치하지 않습니다.'; return; }
+
+    btn.disabled = true;
+    btn.textContent = '가입 중...';
+    errEl.textContent = '';
+
+    const { error } = await supabase.auth.signUp({
+      email: document.getElementById('signup-email').value.trim(),
+      password: pw,
+    });
+
+    if (error) {
+      errEl.textContent = error.message;
+      btn.disabled = false;
+      btn.textContent = '회원가입';
+    } else {
+      // 이메일 인증 없이 바로 로그인 처리
+      location.href = 'index.html';
+    }
+  }
+</script>
+</body>
+</html>

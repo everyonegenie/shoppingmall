@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 실패 — GOODS SHOP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="result-page">
+  <div class="result-box">
+    <div class="result-icon">❌</div>
+    <h2 id="fail-title">결제 실패</h2>
+    <p id="fail-msg">결제가 취소되었거나 오류가 발생했습니다.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+      <a href="checkout.html" class="btn btn--primary">다시 시도</a>
+      <a href="index.html" class="btn btn--secondary">쇼핑으로 돌아가기</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const code = params.get('code');
+  const message = params.get('message');
+  if (message) document.getElementById('fail-msg').textContent = decodeURIComponent(message);
+  if (code) document.getElementById('fail-title').textContent = `결제 실패 (${code})`;
+</script>
+</body>
+</html>

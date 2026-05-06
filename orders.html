@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주문 내역 — GOODS SHOP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="nav__logo">🛍️ GOODS SHOP</a>
+      <div class="nav__links" id="nav-auth"></div>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="padding-bottom:60px">
+  <div class="page-header">
+    <h1>주문 내역</h1>
+    <p>내가 결제한 주문 목록입니다</p>
+  </div>
+
+  <div style="overflow-x:auto">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>날짜</th>
+          <th>상품</th>
+          <th>상태</th>
+          <th>금액</th>
+          <th>주문번호</th>
+        </tr>
+      </thead>
+      <tbody id="orders-body">
+        <tr><td colspan="5"><div class="spinner"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/orders.js"></script>
+<script>
+  (async () => {
+    await renderNav();
+    await loadOrders();
+  })();
+</script>
+</body>
+</html>

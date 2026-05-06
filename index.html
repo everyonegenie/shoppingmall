@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOODS SHOP</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="nav__logo">🛍️ GOODS SHOP</a>
+      <div class="nav__links" id="nav-auth"></div>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="page-header">
+    <h1>굿즈 스토어</h1>
+    <p>공식 굿즈를 만나보세요</p>
+  </div>
+  <div class="products-grid" id="products-grid">
+    <div class="spinner"></div>
+  </div>
+</main>
+
+<!-- 장바구니 바 -->
+<div class="cart-bar" id="cart-bar">
+  <div class="cart-bar__info">
+    🛒 <span id="cart-count"></span> 선택됨
+  </div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <span class="cart-bar__total" id="cart-total"></span>
+    <button class="btn btn--primary btn--sm" onclick="goCheckout()">결제하기</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/products.js"></script>
+<script>
+  (async () => {
+    window._currentUser = await getCurrentUser();
+    await renderNav();
+    await loadProducts();
+    updateCartBar();
+  })();
+</script>
+</body>
+</html>
